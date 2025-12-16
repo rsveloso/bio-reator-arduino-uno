@@ -55,9 +55,11 @@ de calbração do eletrodo de OD, fazer a leitura dos parâmetros de calibraçã
 #include <Arduino.h>
 #include "include/AcquaShield.h"
 #include "include/Ultrassom.h"   // ➜ novo include
+#include "include/PHSensor.h"    // pH sensor (local include)
 
 ODShield Shield_OD; //Instancia a variável "ODShield".
 Ultrassom sensorUltrassom(13, 12);  // trig, echo
+PHSensor sensorPH(A0); // sensor pH (A0)
 
 void setup() 
 {
@@ -153,10 +155,11 @@ void loop()
 
         // ----------- LEITURA DE TEMPERATURA -----------
         float temp = Shield_OD.temp();
+        float ph = sensorPH.readPH();
 
         // ----------- PRINT NO SERIAL MONITOR -----------
         // ----------- SAÍDA SERIAL PADRONIZADA ----------------
-        // Formato: Temp=xx.xx; OD=yy.yy; Dist=zz.zz;
+        // Formato: Temp=xx.xx; OD=yy.yy; pH=zz.zz; Dist=aa.aa;
 
         Serial.print("Temp=");
         Serial.print(temp);
@@ -164,6 +167,10 @@ void loop()
 
         Serial.print("OD=");
         Serial.print(od);
+        Serial.print("; ");
+
+        Serial.print("pH=");
+        Serial.print(ph, 2);
         Serial.print("; ");
 
         Serial.print("Dist=");
