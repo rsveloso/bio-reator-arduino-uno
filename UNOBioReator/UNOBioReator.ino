@@ -53,6 +53,8 @@ de calbração do eletrodo de OD, fazer a leitura dos parâmetros de calibraçã
 ***************************************************************************************************************************************************************************/
 
 #include <Arduino.h>
+#include <OneWire.h>
+#include <DallasTemperature.h>
 #include "include/AcquaShield.h"
 #include "include/Ultrassom.h"   // ➜ novo include
 #include "include/PHSensor.h"    // pH sensor (local include)
@@ -60,11 +62,16 @@ de calbração do eletrodo de OD, fazer a leitura dos parâmetros de calibraçã
 ODShield Shield_OD; //Instancia a variável "ODShield".
 Ultrassom sensorUltrassom(13, 12);  // trig, echo
 PHSensor sensorPH(A0); // sensor pH (A0)
+const uint8_t PINO_TEMP2 = 4; // DS18B20 conectado diretamente ao pino D4
+OneWire oneWireTemp2(PINO_TEMP2);
+DallasTemperature sensorTemp2(&oneWireTemp2);
 
 void setup() 
 {
     Serial.begin(9600);   //Inicializa a UART do Arduino.
     Shield_OD.init();     //Inicializa o Shield de OD.
+    sensorTemp2.begin();
+    sensorTemp2.setResolution(10); // resolucao de 0,25 C para conversao mais rapida
 
     od_type = saturacao;        //iicializa variável externa para indicar tipo de impressão de OD
 
@@ -155,14 +162,21 @@ void loop()
 
         // ----------- LEITURA DE TEMPERATURA -----------
         float temp = Shield_OD.temp();
+        sensorTemp2.requestTemperatures();
+        float temp2 = sensorTemp2.getTempCByIndex(0);
         float ph = sensorPH.readPH();
 
         // ----------- PRINT NO SERIAL MONITOR -----------
         // ----------- SAÍDA SERIAL PADRONIZADA ----------------
-        // Formato: Temp=xx.xx; OD=yy.yy; pH=zz.zz; Dist=aa.aa;
+        // Formato: Temp=xx.xx; Temp2=xx.xx; OD=yy.yy; pH=zz.zz; Dist=aa.aa;
 
         Serial.print("Temp=");
         Serial.print(temp);
+        Serial.print("; ");
+
+        Serial.print("Temp2=");
+        if (temp2 == DEVICE_DISCONNECTED_C) Serial.print("-127.00");
+        else Serial.print(temp2, 2);
         Serial.print("; ");
 
         Serial.print("OD=");

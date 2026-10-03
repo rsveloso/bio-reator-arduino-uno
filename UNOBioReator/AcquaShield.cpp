@@ -22,7 +22,7 @@ float ODShield::temp(void)
      float temp = 0;
      unsigned int contador = 0;
      unsigned int rx_timeout = 0;
-     char rx_vetor[6] = {0,0,0,0,0,0};
+     char rx_vetor[8] = {0};
      
      mySerial.write(ShieldOD_addr);  //Envia o endereço do AcquaShield_pH pela UART.
      delay(10);
@@ -61,7 +61,7 @@ float ODShield::OD(void)
      float od = 0;
      unsigned int contador = 0;
      unsigned int rx_timeout = 0;
-     char rx_vetor[6] = {0,0,0,0,0,0};
+     char rx_vetor[8] = {0};
      
      mySerial.write(ShieldOD_addr);  //Envia o endereço do AcquaShield_pH pela UART.
      delay(10);
@@ -99,7 +99,7 @@ float ODShield::ODsat(void)
      float odsat = 0;
      unsigned int contador = 0;
      unsigned int rx_timeout = 0;
-     char rx_vetor[6] = {0,0,0,0,0,0};
+     char rx_vetor[8] = {0};
      
      mySerial.write(ShieldOD_addr);  //Envia o endereço do AcquaShield_pH pela UART.
      delay(10);
@@ -247,7 +247,7 @@ float OD_param(void)
      float ph_offset = 0;
      unsigned int contador = 0;
      unsigned int rx_timeout = 0;
-     char rx_vetor[6] = {0,0,0,0,0,0};
+     char rx_vetor[8] = {0};
     
      mySerial.write(ShieldOD_addr);  //Envia o endereço do AcquaShield_pH pela UART.
      delay(10);
@@ -286,7 +286,7 @@ float OD_offset(void)
      float od_offset = 0;
      unsigned int contador = 0;
      unsigned int rx_timeout = 0;
-     char rx_vetor[6] = {0,0,0,0,0,0};
+     char rx_vetor[8] = {0};
     
      mySerial.write(ShieldOD_addr);  //Envia o endereço do AcquaShield_OD pela UART.
      delay(10);
@@ -323,7 +323,7 @@ float OD_voltage_0(void)
      float od_v0 = 0;
      unsigned int contador = 0;
      unsigned int rx_timeout = 0;
-     char rx_vetor[6] = {0,0,0,0,0,0};
+     char rx_vetor[8] = {0};
     
      mySerial.write(ShieldOD_addr);  //Envia o endereço do AcquaShield_OD pela UART.
      delay(10);
@@ -360,7 +360,7 @@ float OD_voltage_Ar(void)
      float od_var = 0;
      unsigned int contador = 0;
      unsigned int rx_timeout = 0;
-     char rx_vetor[6] = {0,0,0,0,0,0};
+     char rx_vetor[8] = {0};
     
      mySerial.write(ShieldOD_addr);  //Envia o endereço do AcquaShield_OD pela UART.
      delay(10);
